@@ -10,6 +10,10 @@ main proc
 
 printNumber:
     int 21h ; Conjunto de funções de entrada/saída.
+    mov bl,dl
+    mov dl,32 ; Código para 'ESPAÇO' de acordo com a tabela ASCII.
+    int 21h
+    mov dl, bl
     inc dl ; Função que incrementa um valor em 'dl'.
     loop printNumber 
 
