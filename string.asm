@@ -1,3 +1,5 @@
+; Extension: MASM/TASM
+
 title print a string (characters structure) ; Título do arquivo
 .model small ; Modelo necessário para leitura do programa
 
