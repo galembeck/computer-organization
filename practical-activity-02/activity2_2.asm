@@ -12,8 +12,8 @@
 ; Digite um segundo número: 5
 ; A soma dos dois números é: 7
 
-title adding two numbers inserted by the user
-.model small
+title adding two numbers inserted by the user ; Título do arquivo.
+.model small ; Modelo necessário para leitura/execução do programa.
 
 .data 
   first_number db 'Insert the first number (between 0-9): ', '$'
@@ -23,42 +23,44 @@ title adding two numbers inserted by the user
 .code 
 main proc
 
-  mov ax,@data
-  mov ds,ax
+  ; Linhas 27 e 28 são responsáveis por permitirem o acesso de '.data'.
+  mov ax,@data ; Endereço base do segmento de dados.
+  mov ds,ax ; Movimentação/cópia de "ax" para "ds" (registrador).
 
-  mov ah,9
-  lea dx,first_number
-  int 21h
+  mov ah,9 ; Função responsável por imprimir uma string na tela do usuário.
+  lea dx,first_number ; Passagem do endereço do texto pelo uso do "offset".
+  ; mov dx, offset first_number ; Funcionamento semelhante ao 'lea ds, first_number'.
+  int 21h ; Conjunto de funções de entrada/saída.
 
-  mov ah,1
-  int 21h
+  mov ah,1 ; Função responsável por ler um caractere do teclado.
+  int 21h ; Conjunto de funções de entrada/saída.
 
-  mov bl,al
-  sub bl,30h
+  mov bl,al ; Responsável por mover o valor de "al" para "bl".
+  sub bl,30h ; Subtração de 30h (48 em decimal) para transformar o caractere em número.
 
-  mov ah,9
-  lea dx,second_number
-  int 21h
+  mov ah,9 ; Função responsável por imprimir uma string na tela do usuário.
+  lea dx,second_number ; Passagem do endereço do texto pelo uso do "offset".
+  int 21h ; Conjunto de funções de entrada/saída.
 
-  mov ah,1
-  int 21h
+  mov ah,1 ; Função responsável por ler um caractere do teclado.
+  int 21h ; Conjunto de funções de entrada/saída.
 
-  mov cl,al
-  sub cl,30h
+  mov cl,al ; Responsável por mover o valor de "al" para "cl".
+  sub cl,30h ; Subtração de 30h (48 em decimal) para transformar o caractere em número.
 
-  mov ah,9
-  lea dx,sum_result
-  int 21h
+  mov ah,9 ; Função responsável por imprimir uma string na tela do usuário.
+  lea dx,sum_result ; Passagem do endereço do texto pelo uso do "offset".
+  int 21h ; Conjunto de funções de entrada/saída.
 
-  add bl,cl
+  add bl,cl ; Adição dos valores de "bl" e "cl".
 
-  mov ah,2
-  mov dl,bl
-  add dl,30h
-  int 21h
+  mov ah,2 ; Função responsável por imprimir um caractere na tela do usuário.
+  mov dl,bl ; Movimentação/cópia de "bl" para "dl".
+  add dl,30h ; Adição de 30h (48 em decimal) para transformar o número em caractere. 
+  int 21h ; Conjunto de funções de entrada/saída.
 
-  mov ah,4ch
-  int 21h
+  mov ah,4ch ; Função responsável por encerrar o programa.
+  int 21h ; Conjunto de funções de entrada/saída.
 
 main endp
 end main
