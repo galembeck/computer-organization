@@ -26,7 +26,7 @@ lea dx,introduction_message ; Passagem do endereço do texto pelo uso do "offset
 ; mov dx,offset introduction_message ; Funcionamento semelhante ao 'lea dx,introduction_message'.
 int 21h ; Conjunto de funções de entrada/saída.
 
-mov ah,1 ; Função responsável por lere um caractere qualquer do teclado e salvá-lo em "al".
+mov ah,1 ; Função responsável por ler um caractere qualquer do teclado e salvá-lo em "al".
 int 21h ; Conjunto de funções de entrada/saída.
 
 mov bl,al ; Responsável por copiar o caractere lido em "al" para "bl".
