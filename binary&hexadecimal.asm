@@ -1,0 +1,79 @@
+title binary entry & hexadecimal output
+.model small
+.stack 100h
+
+.data
+  INPUT_PROMPT DB 'Insert a binary number (it will be return as a hexadecimal number): ', '$'
+  OUTPUT_PROMPT DB 'The hexadecimal number is: ', '$'
+
+jump_line MACRO
+  PUSH AX
+  PUSH DX
+
+  MOV AH, 02H
+
+  MOV DL, 0DH
+  INT 21H
+
+  MOV DL, 0AH
+  INT 21H
+
+  POP DX
+  POP AX
+ENDM
+
+.code 
+MAIN PROC
+
+  MOV AX,@DATA
+  MOV DS,AX
+
+  CALL BINARY_INPUT_PROCESS
+
+  ; CALL HEXADECIMAL_OUTPUT_PROCESS
+
+  MOV AH,4CH
+  INT 21H
+
+MAIN ENDP
+
+BINARY_INPUT_PROCESS PROC
+  MOV AH,9
+  LEA DX,INPUT_PROMPT
+  INT 21H
+
+  XOR BX,BX
+  MOV CX,16
+
+  MOV AH,1
+  READ_BINARY:
+    INT 21H
+
+    CMP AL,0DH
+    JE  END_READ_BINARY
+
+    AND AL,0FH
+    SHL BL,1
+    OR  BL,AL
+
+    LOOP READ_BINARY
+  
+  END_READ_BINARY:
+    RET
+BINARY_INPUT_PROCESS ENDP
+
+HEXADECIMAL_OUTPUT_PROCESS PROC
+  jump_line
+
+  MOV AH,9
+  LEA DX,OUTPUT_PROMPT
+  INT 21H
+
+  MOV CH,4
+  MOV CL,4
+
+  MOV AH,2
+  
+HEXADECIMAL_OUTPUT_PROCESS ENDP
+
+END MAIN

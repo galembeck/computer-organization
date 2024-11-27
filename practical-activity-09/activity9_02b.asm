@@ -1,4 +1,4 @@
-title manipulating vectors using "bx"
+title manipulating vectors using "si" or "di"
 .model small
 .stack 100h
 
@@ -14,21 +14,26 @@ main proc
   
   XOR DL,DL ; Redefinição de DL para 0.
   MOV CX,6 ; Definição do tamanho do vetor (6 elementos).
-  XOR BX,BX ; Redefinição de BX.
+  
+  XOR DI,DI ; Redefinição de DI.
 
+  CALL MANIPULATION
+
+  MOV AH,4Ch ; Função responsável por finalizar o programa.
+  INT 21h ; Conjunto de funções de entrada/saída.
+
+main endp
+
+MANIPULATION PROC
   RETURN: ; Criação/definição do rótulo "RETURN".
-    MOV DL,vector[BX] ; Movimentação do valor do vetor para DL.
-
-    INC BX ; Incremento de BX.
+    MOV DL,vector[DI] ; Movimentação do valor do vetor para DL.
+    
+    INC DI ; Incremento de DI.
     ADD DL,30h ; Adição de 30h ao valor de DL.
 
     MOV AH,2 ; Função responsável por imprimir um caractere na tela do usuário.
     INT 21H ; Conjunto de funções de entrada/saída.
 
     LOOP RETURN ; Repete o loop enquanto "CX" é diferente de 0.
-
-  MOV AH,4Ch ; Função responsável por finalizar o programa.
-  INT 21h ; Conjunto de funções de entrada/saída.
-
-main endp
+MANIPULATION ENDP
 end main

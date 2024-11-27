@@ -15,21 +15,25 @@ main proc
   XOR DL,DL ; Redefinição de DL para 0.
   MOV CX,6 ; Definição do tamanho do vetor (6 elementos).
   
-  XOR DI,DI ; Redefinição de DI.
+  LEA SI,vector ; Passagem do endereço do vetor pelo uso do "offset".
 
+  CALL MANIPULATION
+
+  MOV AH,4Ch ; Função responsável por finalizar o programa.
+  INT 21h ; Conjunto de funções de entrada/saída.
+
+main endp
+
+MANIPULATION PROC
   RETURN: ; Criação/definição do rótulo "RETURN".
-    MOV DL,vector[DI] ; Movimentação do valor do vetor para DL.
+    MOV DL,[SI] ; Movimentação do valor do vetor para DL.
     
-    INC DI ; Incremento de DI.
+    INC SI ; Incremento de SI.
     ADD DL,30h ; Adição de 30h ao valor de DL.
 
     MOV AH,2 ; Função responsável por imprimir um caractere na tela do usuário.
     INT 21H ; Conjunto de funções de entrada/saída.
 
     LOOP RETURN ; Repete o loop enquanto "CX" é diferente de 0.
-
-  MOV AH,4Ch ; Função responsável por finalizar o programa.
-  INT 21h ; Conjunto de funções de entrada/saída.
-
-main endp
+MANIPULATION ENDP
 end main

@@ -17,6 +17,14 @@ main proc
 
   LEA BX,vector ; Passagem do endereço do vetor pelo uso do "offset".
 
+  CALL MANIPULATION
+
+  MOV AH,4Ch ; Função responsável por finalizar o programa.
+  INT 21h ; Conjunto de funções de entrada/saída.
+
+main endp
+
+MANIPULATION PROC
   RETURN: ; Criação/definição do rótulo "RETURN".
     MOV DL,[BX] ; Movimentação do valor do vetor para DL.
 
@@ -27,9 +35,5 @@ main proc
     INT 21H ; Conjunto de funções de entrada/saída.
 
     LOOP RETURN ; Repete o loop enquanto "CX" é diferente de 0.
-
-  MOV AH,4Ch ; Função responsável por finalizar o programa.
-  INT 21h ; Conjunto de funções de entrada/saída.
-
-main endp
+MANIPULATION ENDP
 end main

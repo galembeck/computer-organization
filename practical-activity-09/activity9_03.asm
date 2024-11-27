@@ -23,20 +23,36 @@ main proc
   XOR SI,SI ; Redefinição de SI.
   MOV DI,6 ; Inicializa DI com o tamanho do vetor - 1 (0 até 6).
 
+  CALL CONVERSION
+
+  CALL PRINT
+
+  MOV AH,4Ch ; Função responsável por finalizar o programa.
+  INT 21H ; Conjunto de funções de entrada/saída.
+
+main endp
+
+CONVERSION PROC
   CONVERSION: ; Criação/definição do rótulo "CONVERSION".
     CMP SI,DI ; Compara o valor de "SI" com o valor de "DI".
     JGE PRINT ; Se "SI" for maior ou igual a "DI", então imprime o vetor.
 
-    MOV AL,vector[SI] ; Movimentação do valor da primeira posição do vetor para AL.
-    MOV BL,vector[DI] ; Movimentação do valor da última posição do vetor para BL.
-
-    MOV vector[SI],BL ; Movimentação do valor de BL para a primeira posição do vetor.
-    MOV vector[DI],AL ; Movimentação do valor de AL para a última posição do vetor.
+    CALL VECTOR_INVERSION
 
     INC SI ; Incremento de SI.
     DEC DI ; Decremento de DI.
     JMP CONVERSION ; Salto para o rótulo "CONVERSION".
+CONVERSION ENDP
 
+VECTOR_INVERSION PROC
+  MOV AL,vector[SI] ; Movimentação do valor da primeira posição do vetor para AL.
+  MOV BL,vector[DI] ; Movimentação do valor da última posição do vetor para BL.
+
+  MOV vector[SI],BL ; Movimentação do valor de BL para a primeira posição do vetor.
+  MOV vector[DI],AL ; Movimentação do valor de AL para a última posição do vetor.
+VECTOR_INVERSION ENDP
+
+PRINT PROC
   PRINT: ; Criação/definição do rótulo "PRINT".
     MOV CX,7 ; Definição do tamanho do vetor (7 elementos).
     XOR BX,BX ; Redefinição de BX.
@@ -49,9 +65,5 @@ main proc
 
       INC BX ; Incremento de BX.
       LOOP PRINT_LOOP ; Repete o loop enquanto "CX" é diferente de 0.
-
-  MOV AH,4Ch ; Função responsável por finalizar o programa.
-  INT 21H ; Conjunto de funções de entrada/saída.
-
-main endp
+PRINT ENDP
 end main
